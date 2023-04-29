@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexo_project/data/repository/user_repository.dart';
 import 'package:nexo_project/ui/list/list.dart';
+import 'package:nexo_project/ui/profile/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ListScreen(),
+      home: const ProfileScreen(),
     );
   }
 }
