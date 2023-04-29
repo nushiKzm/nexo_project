@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexo_project/data/repository/user_repository.dart';
-import 'package:nexo_project/ui/users/users.dart';
+import 'package:nexo_project/ui/list/list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +12,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    userRepository
-        .getAll()
-        .then((value) => debugPrint(value.toString()))
-        .catchError((e) {
-      debugPrint(e.toString());
-    });
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -39,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const UsersScreen(),
+      home: const ListScreen(),
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class UsersScreen extends StatelessWidget {
-  const UsersScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.amber,
+      color: Colors.red,
     );
   }
 }
