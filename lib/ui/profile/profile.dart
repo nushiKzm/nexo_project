@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:nexo_project/data/user.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  final UserEntity user;
+  final int index;
+
+  const ProfileScreen({super.key, required this.user, required this.index});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late TextEditingController phoneNumberController;
+  late TextEditingController ageController;
+  @override
   Widget build(BuildContext context) {
+    final user = widget.user;
+    phoneNumberController = TextEditingController(text: user.date);
+    ageController = TextEditingController(text: user.age.toString());
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Contacts',
-          style: TextStyle(fontSize: 20),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        centerTitle: true,
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child: Text(
               'Save',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-                color: Colors.black,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
           const SizedBox(width: 10)
@@ -35,20 +44,20 @@ class ProfileScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(66),
                 child: Image.asset(
-                  'assets/img/profile_1.jpg',
+                  'assets/img/profile_${widget.index}.jpg',
                   width: 132,
                   height: 132,
                 ),
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Nima Kazemi',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              Text(
+                user.name,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               Text(
-                '@nima',
-                style: TextStyle(color: Colors.black.withOpacity(0.3)),
+                '@${user.name}',
+                style: Theme.of(context).textTheme.labelSmall,
               ),
               const SizedBox(height: 32),
               Container(
@@ -65,56 +74,58 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Contact info',
-                        style: TextStyle(fontSize: 20),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(12, 14, 0, 4),
                         child: Text(
                           'Phone number',
-                          style:
-                              TextStyle(color: Colors.black.withOpacity(0.3)),
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14.0),
-                            ),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
+                      WhiteTextField(controller: phoneNumberController),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(12, 14, 0, 4),
                         child: Text(
                           'Age',
-                          style:
-                              TextStyle(color: Colors.black.withOpacity(0.3)),
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14.0),
-                            ),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
+                      WhiteTextField(controller: ageController),
                     ],
                   ),
                 ),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class WhiteTextField extends StatelessWidget {
+  const WhiteTextField({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      decoration: const InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(14.0),
+          ),
+          borderSide: BorderSide.none,
         ),
       ),
     );

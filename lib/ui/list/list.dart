@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexo_project/data/repository/user_repository.dart';
 import 'package:nexo_project/ui/list/bloc/list_bloc.dart';
+import 'package:nexo_project/ui/profile/profile.dart';
 
 class ListScreen extends StatelessWidget {
   const ListScreen({super.key});
@@ -16,22 +17,29 @@ class ListScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Contacts',
-            style: TextStyle(fontSize: 20),
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
-          centerTitle: true,
         ),
         body: BlocBuilder<ListBloc, ListState>(
           builder: (context, state) {
             if (state is ListSuccess) {
+              //state like a instance of ListSuccess
               return ListView.builder(
                 itemCount: state.users.length,
                 itemBuilder: (context, index) {
+                  final user = state.users[index];
                   return InkWell(
                     onTap: () {
-                      //   BlocProvider.of<profileBloc>(context)
-                      // .add(CartAddButtonClick(widget.product.id));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                            user: user,
+                            index: index,
+                          ),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(40, 16, 40, 16),
@@ -50,16 +58,14 @@ class ListScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.users[index].name,
-                                style: TextStyle(fontSize: 20),
+                                user.name,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                state.users[index].date,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
+                                user.date,
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ],
                           )
@@ -81,7 +87,7 @@ class ListScreen extends StatelessWidget {
                         onPressed: () {
                           BlocProvider.of<ListBloc>(context).add(ListRefresh());
                         },
-                        child: Text('تلاش دوباره'))
+                        child: const Text('تلاش دوباره'))
                   ],
                 ),
               );
